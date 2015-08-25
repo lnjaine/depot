@@ -1,9 +1,17 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-	fixtures: products
+	fixtures :products
 
-  test "product attributes must not be empty" do product = Product.new
+	def new_product(image_url) 
+		Product.new(title: "My Book Title",
+								description: "yyy", 
+								price: 1, 
+								image_url: image_url)
+	end
+
+  test "product attributes must not be empty" do 
+  	product = Product.new
 	  assert product.invalid?
 	  
 	  assert product.errors[:title].any?
@@ -26,16 +34,9 @@ class ProductTest < ActiveSupport::TestCase
 		assert_equal ["must be greater than or equal to 0.01"],
 		    product.errors[:price]
 
-		  product.price = 1
-		  assert product.valid?
-		end
-
-		def new_product(image_url) 
-			Product.new(title: "My Book Title",
-									description: "yyy", 
-									price: 1, 
-									image_url: image_url)
-		end
+		 product.price = 1
+		 assert product.valid?
+	end
 
 	test "image url" do
 		ok = %w{ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg 
